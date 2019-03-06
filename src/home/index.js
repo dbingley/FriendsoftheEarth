@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-
+import Navbar from '../navbar.js'
 const Home = (props) => {
 
     const [tasks, setTasks] = useState(null)
@@ -18,6 +18,8 @@ const Home = (props) => {
     }, [window.db])
 
     return (
+      <>
+      <Navbar/>
         <div className="Home">
             {!loaded && (
                 <p>Loading</p>
@@ -35,6 +37,7 @@ const Home = (props) => {
             )}
 
         </div>
+        </>
     )
 }
 

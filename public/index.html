@@ -23,21 +23,40 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
-    <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-firestore.js"></script>
-<script>
-  // Initialize Firebase
-  var fbConfig = {
-    apiKey: "AIzaSyCVfHYEzr_acJtRW8u34b6371zHKJDN7fs",
-    authDomain: "react-firebase-ada.firebaseapp.com",
-    databaseURL: "https://react-firebase-ada.firebaseio.com",
-    projectId: "react-firebase-ada",
-    storageBucket: "react-firebase-ada.appspot.com",
-    messagingSenderId: "865733052309"
-  };
-  firebase.initializeApp(fbConfig);
-  window.db = firebase.firestore();
-</script>
+
+  <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyAc0SW9ajR12W5tanm4GkCST62y8Jl4BM4",
+      authDomain: "team-greener.firebaseapp.com",
+      databaseURL: "https://team-greener.firebaseio.com",
+      projectId: "team-greener",
+      storageBucket: "team-greener.appspot.com",
+      messagingSenderId: "893865198200"
+    };
+    firebase.initializeApp(config);
+    window.db = firebase.firestore();
+  </script>
+  <script src="https://unpkg.com/react/umd/react.production.js" crossorigin />
+
+<script
+  src="https://unpkg.com/react-dom/umd/react-dom.production.js"
+  crossorigin
+/>
+
+<script
+  src="https://unpkg.com/react-bootstrap@next/dist/react-bootstrap.min.js"
+  crossorigin
+/>
+
+<script>var Alert = ReactBootstrap.Alert;</script>
+<link
+  rel="stylesheet"
+  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+  integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+  crossorigin="anonymous"
+/>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
