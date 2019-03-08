@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import {NavLink} from 'react-router-dom'
-import './index.css';
+import '../index.css';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 
 
-class EntryForm extends React.Component {
+ class EntryForm extends React.Component {
   constructor(...args) {
     super(...args);
 
@@ -17,19 +17,40 @@ class EntryForm extends React.Component {
       firstName: "",
       lastName: "",
       email: "",
-      number:""
+      number:"",
+      address:""
 
     }
+
   }
 
+
+
+
   handleSubmit = (event) => {
+    const submitToFirebase = (formValues) => {
+        // add the fields to firebase
+        // redirect the user to the homepage
+        console.log(formValues)
+        window.db.collection("user-data").doc().set(formValues);
+    }
     event.preventDefault();
-    console.log(this.state)
+  //  console.log(this.state)
     const form = event.currentTarget;
 
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+    }else{
+
+      setTimeout(() => {
+          //alert(JSON.stringify(values, null, 2));
+          submitToFirebase(this.state)
+          //actions.setSubmitting(false);
+      }, 1000);
+      //window.location.href = "./home/";
+      this.props.handleUpdateName(this.state.firstName, this.state.lastName)
+      this.props.history.push('/home')
     }
     this.setState({ validated: true });
   }
@@ -37,10 +58,24 @@ class EntryForm extends React.Component {
   handleLocation = (event) => {
     event.preventDefault();
 
-    function showLocation(position) {
+    const showLocation =(position)=> {
              var latitude = position.coords.latitude;
              var longitude = position.coords.longitude;
-             alert("Latitude : " + latitude + " Longitude: " + longitude);
+             var myApiKey = "AIzaSyCz5WskPXxkGVTIpsOBaD58CfpvNIwo7I4";
+
+          fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + ',' + longitude + '&key=' + myApiKey)
+        .then((response) => response.json())
+        .then((responseJson) => {
+          var obj = responseJson;
+        //  console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson));
+         console.log((obj.results[0].formatted_address));
+         console.log(JSON.stringify(obj.results[0].formatted_address));
+         this.setState({
+           address: obj.results[0].formatted_address
+         })
+        //  this.state.address = JSON.stringify((obj.results[0].formatted_address));
+
+            })
           }
 
           function errorHandler(err) {
@@ -52,6 +87,7 @@ class EntryForm extends React.Component {
           }
 
 
+
              if(navigator.geolocation) {
 
                 // timeout at 60000 milliseconds (60 seconds)
@@ -61,19 +97,21 @@ class EntryForm extends React.Component {
                 alert("Sorry, browser does not support geolocation!");
              }
 
+
+
 }
 
   handleChange = (event) => {
     let newState = {
       [event.target.getAttribute('name')]: event.target.value
     }
-    console.log(newState)
     this.setState(newState)
   }
 
 
 
   render() {
+    console.log(this.props)
     const { validated, firstName, lastName, email, number, address } = this.state;
     return (
       <div class="container center_div">
@@ -83,7 +121,6 @@ class EntryForm extends React.Component {
         validated={validated}
         onSubmit={e => this.handleSubmit(e)}
       >
-      <p>Name entered: {firstName} {lastName} {email} {number} {address}</p>
           <Form.Group  controlId="validationCustom01">
             <Form.Label>First name</Form.Label>
             <Form.Control
@@ -136,13 +173,12 @@ class EntryForm extends React.Component {
             </Form.Control.Feedback>
           </Form.Group>
           <Button onClick={this.handleLocation} type="locate">Locate me</Button>
-          <Form.Group  controlId="validationCustom03">
+          <Form.Group  controlId="validationCustom01">
             <Form.Label>Location</Form.Label>
             <Form.Control type="text" placeholder="Address" required
             name='address'
             value={address}
              onChange={this.handleChange}
-             disabled
              />
             <Form.Control.Feedback type="invalid">
               Please click locate button.

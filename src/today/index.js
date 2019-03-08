@@ -1,59 +1,45 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Formik }  from 'formik'
-//import withFirebase from '../database/with-firebase';
-const AddTask = (props) => {
+import Navbar from '../Components/navbar.js'
 
-    const submitToFirebase = (formValues) => {
-        // add the fields to firebase
-        // redirect the user to the homepage
-        console.log(formValues)
-        window.db.collection("tasks").doc(formValues.name).set(formValues);
-    }
-
-
-
+const Today = (props) => {
+    const [userData, setUserData] = useState(null)
+    const [loaded, setLoaded] = useState(false)
 
     return (
+      <>
+      <Navbar/>
         <div className="Today">
-            <h1>Add a Task</h1>
-            <h1>My Form</h1>
-            <Formik
-                initialValues={{ name: '', description: '' }}
-                onSubmit={(values, actions) => {
-                    setTimeout(() => {
-                        //alert(JSON.stringify(values, null, 2));
-                        submitToFirebase(values)
-                        //actions.setSubmitting(false);
-                    }, 1000);
-                }}
-                render={props => (
-                    <form onSubmit={props.handleSubmit}>
-                        <input
-                            type="text"
-                            onChange={props.handleChange}
-                            onBlur={props.handleBlur}
-                            value={props.values.name}
-                            placeholder="Name of task"
-                            name="name"
-                        />
-                        {props.errors.name && <div id="feedback">{props.errors.name}</div>}
-                        <input
-                            type="textarea"
-                            onChange={props.handleChange}
-                            onBlur={props.handleBlur}
-                            value={props.values.description}
-                            placeholder="What's the task involve?"
-                            name="description"
-                        />
-                        {props.errors.description && <div id="feedback">{props.errors.description}</div>}
-                        <button type="submit">Submit</button>
-                    </form>
-                )}
+            <h1>Today's roundup</h1>
+            <br/>
+            <h2>Latest air-quality</h2>
+<br/>
+            <h3>Alcohol:</h3>
+            <h3>CH4:</h3>
+            <h3>CO:</h3>
+            <h3>H2:</h3>
+            <h3>LPG:</h3>
+            <h3>Propane:</h3>
+            <h3>Smoke:</h3>
+            <br/>
+            <h2>Other stat's</h2>
+
+            <br/>
+            <h3>Humidity:</h3>
+            <h3>Latitude:</h3>
+            <h3>Longitude:</h3>
+            <h3>Pressure:</h3>
+            <h3>Temperature:</h3>
+            <h3>Last updated:</h3>
+
             />
 
 
         </div>
+        </>
+
+
     )
 }
 
-export default AddTask
+export default Today

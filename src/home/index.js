@@ -1,36 +1,53 @@
 import React, { useState, useEffect } from 'react'
-import Navbar from '../navbar.js'
+import ProgressBar from 'react-bootstrap/ProgressBar';
+import Button from 'react-bootstrap/Button';
+import Navbar from '../Components/navbar.js'
+import AddPost from '../addPost/addPost.js'
+
 const Home = (props) => {
 
-    const [tasks, setTasks] = useState(null)
+    const [feedData, setfeedData] = useState(null)
     const [loaded, setLoaded] = useState(false)
 
+
+
     useEffect(() => {
-        window.db.collection("tasks").get().then((querySnapshot) => {
-            let tasks = []
+        window.db.collection("feed-data").get().then((querySnapshot) => {
+            let feedData = []
             querySnapshot.forEach((doc) => {
-                tasks.push(doc.data())
-                console.log(`${doc.id} => ${doc.data()}`);
+                feedData.push(doc.data())
+                //console.log(`${doc.id} => ${doc.data()}`);
             });
-            setTasks(tasks)
+            setfeedData(feedData)
             setLoaded(true)
         });
     }, [window.db])
+    //console.log(props)
 
     return (
+
       <>
       <Navbar/>
+
         <div className="Home">
             {!loaded && (
-                <p>Loading</p>
+              //  <p>Loading</p>
+              <div>
+              <ProgressBar animated now={100} label='100'/>
+              </div>
+
             )}
             {loaded && (
                 <section>
-                    <h1>Welcome to Task Tracker</h1>
-                    {tasks && tasks.map((task) => (
+                <br/>
+                <h1>Welcome to your feed, {props.firstName} </h1>
+                <AddPost {...props}/>
+                    {feedData && feedData.map((feedData) => (
                         <article>
-                            <h2>{task.name}</h2>
-                            <p>{task.description}</p>
+                            <h3>{feedData.owner}</h3>
+                            <p>{feedData.status}</p>
+                            <p>{feedData.time}</p>
+
                         </article>
                     ))}
                 </section>
