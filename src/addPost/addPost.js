@@ -17,7 +17,12 @@ class AddPost extends Component {
         const { show } = this.state;
         this.setState( { show : !show } )
     }
+    handleClickOther= (event) => {
+      window.location.reload(false);
 
+
+
+    }
     render() {
         return (
 
@@ -25,10 +30,20 @@ class AddPost extends Component {
             {console.log(this.props)}
 
                 <br />
+                <Button variant="primary" onClick={ this.handleClickOther }>Refresh feed</Button>
+                <div> - - -</div>
+
+
                 <Button variant="primary" onClick={ this.toggleDiv }>Add post</Button>
 
                 <br /><br />
                 { this.state.show && <Box {...this.props}/> }
+
+
+
+
+
+
             </div>
         );
     }
